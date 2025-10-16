@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>GESTIÓN DE USUARIOS</h1>
+
+    <div class="nav-links">
+        <a href="{{ url_for('nuevo_usuario_qhc') }}">Nuevo Usuario</a>
+        <a href="{{ url_for('lista_tiendas_qhc') }}">Ver Tiendas</a>
+        <a href="{{ url_for('inicio_qhc') }}">Inicio</a>
+    </div>
+
+    <table>
+        <caption>Listado de Usuarios del Sistema</caption>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Nombre</th>
+            <th>Rol</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+        {% for usuario_qhc in datosUsuarios_qhc %}
+        <tr>
+            <td>{{ usuario_qhc.id }}</td>
+            <td>{{ usuario_qhc.username }}</td>
+            <td>{{ usuario_qhc.nombre }}</td>
+            <td>{{ usuario_qhc.rol }}</td>
+            <td>{{ 'Activo' if usuario_qhc.activo else 'Inactivo' }}</td>
+            <td>
+                <a href="{{ url_for('elimina_usuario_qhc', id_usuario_qhc=usuario_qhc.id) }}" onclick="return confirm('¿Está seguro de eliminar al usuario {{ usuario_qhc.username }}?')">
+                    <button class="btn-danger">Eliminar</button>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    {% if not datosUsuarios_qhc %}
+    <div style="text-align: center; margin: 20px;">
+        No hay usuarios registrados.
+    </div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>NUEVA TIENDA</h1>
+
+    <div class="nav-links">
+        <a href="{{ url_for('lista_tiendas_qhc') }}">Volver a Tiendas</a>
+        <a href="{{ url_for('inicio_qhc') }}">Inicio</a>
+    </div>
+
+    <form action="{{ url_for('nueva_tienda_qhc') }}" method="post">
+        <label for="nombre_tda_qhc">Nombre:</label>
+        <input type="text" name="nombre_tda_qhc" id="nombre_tda_qhc" required>
+        
+        <label for="direccion_tda_qhc">Dirección:</label>
+        <input type="text" name="direccion_tda_qhc" id="direccion_tda_qhc" required>
+        
+        <div style="text-align: center;">
+            <button type="submit" class="btn-success">Registrar Tienda</button>
+            <button type="reset" class="btn-secondary">Cancelar</button>
+        </div>
+    </form>
+{% endblock %}

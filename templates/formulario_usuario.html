@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>NUEVO USUARIO</h1>
+
+    <div class="nav-links">
+        <a href="{{ url_for('lista_usuarios_qhc') }}">Volver a Usuarios</a>
+        <a href="{{ url_for('inicio_qhc') }}">Inicio</a>
+    </div>
+
+    <form action="{{ url_for('nuevo_usuario_qhc') }}" method="post">
+        <label for="username_qhc">Username:</label>
+        <input type="text" name="username_qhc" id="username_qhc" required>
+        
+        <label for="nombre_qhc">Nombre Completo:</label>
+        <input type="text" name="nombre_qhc" id="nombre_qhc" required>
+        
+        <label for="password_qhc">Password:</label>
+        <input type="password" name="password_qhc" id="password_qhc" required>
+        
+        <label for="rol_qhc">Rol:</label>
+        <select name="rol_qhc" id="rol_qhc" required>
+            <option value="admin">Administrador</option>
+            <option value="operator">Operador</option>
+        </select>
+        
+        <div style="text-align: center;">
+            <button type="submit" class="btn-success">Registrar Usuario</button>
+            <button type="reset" class="btn-secondary">Cancelar</button>
+        </div>
+    </form>
+{% endblock %}

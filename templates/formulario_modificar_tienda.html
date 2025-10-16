@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% if tienda_qhc %}
+        <h1>MODIFICAR TIENDA</h1>
+
+        <div class="nav-links">
+            <a href="{{ url_for('lista_tiendas_qhc') }}">Volver a Tiendas</a>
+            <a href="{{ url_for('inicio_qhc') }}">Inicio</a>
+        </div>
+
+        <form action="{{ url_for('modificar_tienda_qhc', id_tienda_qhc=tienda_qhc.id_tienda) }}" method="post">
+            <label for="nombre_tda_qhc">Nombre:</label>
+            <input type="text" name="nombre_tda_qhc" id="nombre_tda_qhc" value="{{ tienda_qhc.nombre }}" required>
+            
+            <label for="direccion_tda_qhc">Dirección:</label>
+            <input type="text" name="direccion_tda_qhc" id="direccion_tda_qhc" value="{{ tienda_qhc.direccion }}" required>
+            
+            <div style="text-align: center;">
+                <button type="submit" class="btn-warning">Guardar Cambios</button>
+                <button type="reset" class="btn-secondary">Cancelar</button>
+            </div>
+        </form>
+    {% else %}
+        <h1>ERROR</h1>
+        <div style="text-align: center; margin: 20px;">
+            <p>No se encontró la tienda solicitada.</p>
+            <a href="{{ url_for('lista_tiendas_qhc') }}">Volver a la lista de tiendas</a>
+        </div>
+    {% endif %}
+{% endblock %}

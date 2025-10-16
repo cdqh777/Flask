@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>LISTA DE COMPRAS</h1>
+
+    <div class="nav-links">
+        {% if session.get('rol') in ['admin', 'operator'] %}
+        <a href="{{ url_for('nueva_compra_qhc') }}">Nueva Compra</a>
+        {% endif %}
+        <a href="{{ url_for('lista_tiendas_qhc') }}">Ver Tiendas</a>
+        <a href="{{ url_for('inicio_qhc') }}">Inicio</a>
+    </div>
+
+    <table>
+        <caption>Listado de Compras Registradas</caption>
+        <tr>
+            <th>ID</th>
+            <th>Cliente</th>
+            <th>Tienda</th>
+            <th>Monto</th>
+            <th>Fecha</th>
+            {% if session.get('rol') == 'admin' %}
+            <th>Acciones</th>
+            {% endif %}
+        </tr>
+        {% for compra_qhc in datosCompras_qhc %}
+        <tr>
+            <td>{{ compra_qhc.id_compra }}</td>
+            <td>{{ compra_qhc.cliente_nombre }}</td>
+            <td>{{ compra_qhc.tienda_nombre }}</td>
+            <td>${{ compra_qhc.monto }}</td>
+            <td>{{ compra_qhc.fecha }}</td>
+            {% if session.get('rol') == 'admin' %}
+            <td>
+                <a href="{{ url_for('elimina_compra_qhc', id_compra_qhc=compra_qhc.id_compra) }}" onclick="return confirm('¿Está seguro de eliminar esta compra?')">
+                    <button class="btn-danger">Eliminar</button>
+                </a>
+            </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+
+    {% if not datosCompras_qhc %}
+    <div style="text-align: center; margin: 20px;">
+        No hay compras registradas.
+    </div>
+    {% endif %}
+{% endblock %}

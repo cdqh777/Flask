@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>REPORTE: COMPRAS POR RANGO DE FECHAS</h1>
+
+    <div class="nav-links">
+        <a href="{{ url_for('inicio_qhc') }}">Inicio</a>
+        <a href="{{ url_for('reportes_principal') }}">Volver a Reportes</a>
+        <a href="{{ url_for('lista_compras_qhc') }}">Ver Compras</a>
+    </div>
+
+    <form action="{{ url_for('reporte_compras_fechas') }}" method="post" style="width: 50%; margin: 20px auto; padding: 20px; border: 1px solid #ccc; border-radius: 5px; background-color: white;">
+        <label for="fecha_inicio">Fecha Inicio:</label>
+        <input type="date" name="fecha_inicio" id="fecha_inicio" required>
+        
+        <label for="fecha_fin">Fecha Fin:</label>
+        <input type="date" name="fecha_fin" id="fecha_fin" required>
+        
+        <div style="text-align: center; margin-top: 20px;">
+            <button type="submit" class="btn-primary">Generar Reporte</button>
+            <button type="reset" class="btn-secondary">Limpiar</button>
+        </div>
+    </form>
+
+    {% if compras_filtradas is defined %}
+    <div style="text-align: center; margin: 20px;">
+        <p><strong>Compras realizadas entre {{ fecha_inicio }} y {{ fecha_fin }}</strong></p>
+        <p><strong>Total de compras: {{ compras_filtradas|length }}</strong></p>
+        {% if total_monto %}
+        <p><strong>Monto total: ${{ "%.2f"|format(total_monto) }}</strong></p>
+        {% endif %}
+    </div>
+
+    <table>
+        <caption>Detalle de Compras por Rango de Fechas</caption>
+        <tr>
+            <th>ID Compra</th>
+            <th>Cliente</th>
+            <th>Tienda</th>
+            <th>Fecha</th>
+            <th>Monto</th>
+        </tr>
+        {% for compra in compras_filtradas %}
+        <tr>
+            <td>{{ compra.id_compra }}</td>
+            <td>{{ compra.cliente_nombre }}</td>
+            <td>{{ compra.tienda_nombre }}</td>
+            <td>{{ compra.fecha }}</td>
+            <td>${{ "%.2f"|format(compra.monto) }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    {% if not compras_filtradas %}
+    <div style="text-align: center; margin: 20px;">
+        No se encontraron compras en el rango de fechas seleccionado.
+    </div>
+    {% endif %}
+    {% endif %}
+
+{% endblock %}

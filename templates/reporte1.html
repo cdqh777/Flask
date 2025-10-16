@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>REPORTE: VENTAS TOTALES POR TIENDA</h1>
+
+    <div class="nav-links">
+        <a href="{{ url_for('reportes_principal') }}">Volver a Reportes</a>
+        <a href="{{ url_for('inicio_qhc') }}">Inicio</a>
+        <a href="{{ url_for('lista_tiendas_qhc') }}">Ver Tiendas</a>
+        <a href="{{ url_for('lista_compras_qhc') }}">Ver Compras</a>
+    </div>
+
+    <div style="text-align: center; margin: 20px;">
+        <p><strong>Resumen de ventas agrupadas por tienda</strong></p>
+        <p><em>Este reporte muestra el total de ventas y número de compras por cada sucursal</em></p>
+    </div>
+
+    {% if ventas_tiendas %}
+    <table>
+        <caption>Ventas Totales por Tienda</caption>
+        <tr>
+            <th>Posición</th>
+            <th>ID Tienda</th>
+            <th>Sucursal</th>
+            <th>Total de Ventas</th>
+            <th>Total de Compras</th>
+            <th>Promedio por Compra</th>
+        </tr>
+        {% for tienda in ventas_tiendas %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ tienda.id_tienda }}</td>
+            <td>{{ tienda.sucursal }}</td>
+            <td>${{ "%.2f"|format(tienda.total_ventas or 0) }}</td>
+            <td>{{ tienda.total_compras or 0 }}</td>
+            <td>
+                {% set total_ventas = tienda.total_ventas or 0 %}
+                {% set total_compras = tienda.total_compras or 0 %}
+                ${{ "%.2f"|format(total_ventas / total_compras) if total_compras > 0 else 0 }}
+            </td>
+        </tr>
+        {% endfor %}
+        
+        <!-- FILA DE TOTALES -->
+        <tr style="background-color: #f2f2f2; font-weight: bold;">
+            <td colspan="3">TOTAL GENERAL</td>
+            {% set total_general_ventas = ventas_tiendas|sum(attribute='total_ventas') or 0 %}
+            {% set total_general_compras = ventas_tiendas|sum(attribute='total_compras') or 0 %}
+            <td>${{ "%.2f"|format(total_general_ventas) }}</td>
+            <td>{{ total_general_compras }}</td>
+            <td>${{ "%.2f"|format(total_general_ventas / total_general_compras) if total_general_compras > 0 else 0 }}</td>
+        </tr>
+    </table>
+
+    <div style="text-align: center; margin: 20px;">
+        <p><strong>Total de tiendas con ventas: {{ ventas_tiendas|length }}</strong></p>
+        <p><strong>Ventas totales del sistema: ${{ "%.2f"|format(total_general_ventas) }}</strong></p>
+        <p><strong>Compras totales del sistema: {{ total_general_compras }}</strong></p>
+    </div>
+
+    {% else %}
+    <div style="text-align: center; margin: 20px; padding: 20px; background-color: #fff3cd; border: 1px solid #ffeaa7; border-radius: 5px;">
+        <h3>No hay datos de ventas para generar el reporte</h3>
+        <p>No se encontraron compras registradas en el sistema.</p>
+    </div>
+    {% endif %}
+
+    <style>
+        table {
+            width: 95%;
+            margin: 20px auto;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        th {
+            background-color: #343a40;
+            color: white;
+            padding: 12px;
+        }
+        td {
+            padding: 10px;
+        }
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        tr:hover {
+            background-color: #e9ecef;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+    </style>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>NUEVA COMPRA</h1>
+
+    <div class="nav-links">
+        <a href="{{ url_for('lista_compras_qhc') }}">Volver a Compras</a>
+        <a href="{{ url_for('inicio_qhc') }}">Inicio</a>
+    </div>
+
+    <form action="{{ url_for('nueva_compra_qhc') }}" method="post">
+        <label for="id_cliente_cpr_qhc">Cliente:</label>
+        <select name="id_cliente_cpr_qhc" id="id_cliente_cpr_qhc" required>
+            <option value="">Seleccione un cliente</option>
+            {% for cliente in clientes_qhc %}
+            <option value="{{ cliente.id_cliente }}">{{ cliente.nombre }}</option>
+            {% endfor %}
+        </select>
+        
+        <label for="id_tienda_cpr_qhc">Tienda:</label>
+        <select name="id_tienda_cpr_qhc" id="id_tienda_cpr_qhc" required>
+            <option value="">Seleccione una tienda</option>
+            {% for tienda in tiendas_qhc %}
+            <option value="{{ tienda.id_tienda }}">{{ tienda.nombre }} - {{ tienda.direccion }}</option>
+            {% endfor %}
+        </select>
+        
+        <label for="monto_cpr_qhc">Monto:</label>
+        <input type="number" name="monto_cpr_qhc" id="monto_cpr_qhc" step="0.01" min="0.01" required>
+        
+        <div style="text-align: center;">
+            <button type="submit" class="btn-success">Registrar Compra</button>
+            <button type="reset" class="btn-secondary">Cancelar</button>
+        </div>
+    </form>
+{% endblock %}

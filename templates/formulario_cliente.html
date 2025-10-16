@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>NUEVO CLIENTE</h1>
+
+    <div class="nav-links">
+        <a href="{{ url_for('lista_clientes_qhc') }}">Volver a Clientes</a>
+        <a href="{{ url_for('inicio_qhc') }}">Inicio</a>
+    </div>
+
+    <form action="{{ url_for('nuevo_cliente_qhc') }}" method="post">
+        <label for="nombre">Nombre:</label>
+        <input type="text" name="nombre" id="nombre" required>
+        
+        <label for="email">Correo Electrónico:</label>
+        <input type="email" name="email" id="email" required>
+        
+        <div style="text-align: center;">
+            <button type="submit" class="btn-success">Registrar Cliente</button>
+            <button type="reset" class="btn-secondary">Cancelar</button>
+        </div>
+    </form>
+{% endblock %}

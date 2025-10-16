@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>LISTA DE CLIENTES</h1>
+    
+    <div class="nav-links">
+        {% if session.get('rol') in ['admin', 'operator'] %}
+        <a href="{{ url_for('nuevo_cliente_qhc') }}">Nuevo cliente</a>
+        {% endif %}
+        <a href="{{ url_for('nueva_compra_qhc') }}">Nueva compra</a>
+        <a href="{{ url_for('inicio_qhc') }}">Inicio</a>
+    </div>
+
+    <table>
+        <caption>Listado de Clientes</caption>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Email</th>
+            {% if session.get('rol') == 'admin' %}
+            <th>Acciones</th>
+            {% endif %}
+        </tr>
+        {% for cliente_qhc in datosClientes_qhc %}
+        <tr>
+            <td>{{ cliente_qhc.id_cliente }}</td>
+            <td>{{ cliente_qhc.nombre }}</td>
+            <td>{{ cliente_qhc.email }}</td>
+            {% if session.get('rol') == 'admin' %}
+            <td>
+                <a href="{{ url_for('elimina_cliente_qhc', id_cliente_qhc=cliente_qhc.id_cliente) }}" onclick="return confirm('¿Está seguro de eliminar al cliente {{ cliente_qhc.nombre }}?')">
+                    <button class="btn-danger">Eliminar</button>
+                </a>
+                <a href="{{ url_for('modificar_cliente_qhc', id_cliente_qhc=cliente_qhc.id_cliente) }}">
+                    <button class="btn-warning">Modificar</button>
+                </a>
+            </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+    
+    {% if not datosClientes_qhc %}
+    <div style="text-align: center; margin: 20px;">
+        No hay clientes registrados.
+    </div>
+    {% endif %}
+{% endblock %}

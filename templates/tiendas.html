@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>LISTA DE TIENDAS</h1>
+
+    <div class="nav-links">
+        {% if session.get('rol') == 'admin' %}
+        <a href="{{ url_for('nueva_tienda_qhc') }}">Nueva Tienda</a>
+        {% endif %}
+        <a href="{{ url_for('lista_compras_qhc') }}">Ver Compras</a>
+        <a href="{{ url_for('inicio_qhc') }}">Inicio</a>
+    </div>
+
+    <table>
+        <caption>Listado de Tiendas Registradas</caption>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Dirección</th>
+            {% if session.get('rol') == 'admin' %}
+            <th>Acciones</th>
+            {% endif %}
+        </tr>
+        {% for tienda_qhc in datosTiendas_qhc %}
+        <tr>
+            <td>{{ tienda_qhc.id_tienda }}</td>
+            <td>{{ tienda_qhc.nombre }}</td>
+            <td>{{ tienda_qhc.direccion }}</td>
+            {% if session.get('rol') == 'admin' %}
+            <td>
+                <a href="{{ url_for('modificar_tienda_qhc', id_tienda_qhc=tienda_qhc.id_tienda) }}">
+                    <button class="btn-warning">Modificar</button>
+                </a>
+                <a href="{{ url_for('elimina_tienda_qhc', id_tienda_qhc=tienda_qhc.id_tienda) }}" onclick="return confirm('¿Está seguro de eliminar la tienda {{ tienda_qhc.nombre }}?')">
+                    <button class="btn-danger">Eliminar</button>
+                </a>
+            </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+
+    {% if not datosTiendas_qhc %}
+    <div style="text-align: center; margin: 20px;">
+        No hay tiendas registradas. 
+        {% if session.get('rol') == 'admin' %}
+        <a href="{{ url_for('nueva_tienda_qhc') }}">Crear primera tienda</a>
+        {% endif %}
+    </div>
+    {% endif %}
+{% endblock %}

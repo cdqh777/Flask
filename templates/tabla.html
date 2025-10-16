@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabla de multiplicacion</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            margin: 20px auto;
+            font-size: 18px;
+        }
+        th,td {
+            border: 1px solid #333;
+            padding: 8px 15px;
+            text-align: center;
+        }
+        th{
+            background-color: #f2f2f2;
+        }
+        caption{
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 20px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        h1{
+            text-align: center;
+            background-color: coral;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tabla de multiplicacion de {{ numero }}</h1>
+
+    <table>
+        <caption>Tabla del {{ numero }}</caption>
+        <tr>
+            <th>Operacion</th><th>Resultado</th>
+        </tr>
+        {% for i in range(1,11) %}
+        <tr>
+            <td>{{ numero }} * {{ i }}</td>
+            <td>{{ numero * i }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

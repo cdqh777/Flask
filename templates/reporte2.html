@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>REPORTE: CLIENTES CON MAYOR MONTO DE COMPRAS</h1>
+
+    <div class="nav-links">
+        <a href="{{ url_for('reportes_principal') }}">Volver a Reportes</a>
+        <a href="{{ url_for('inicio_qhc') }}">Inicio</a>
+        <a href="{{ url_for('lista_clientes_qhc') }}">Ver Clientes</a>
+        <a href="{{ url_for('lista_compras_qhc') }}">Ver Compras</a>
+    </div>
+
+    <div style="text-align: center; margin: 20px;">
+        <p><strong>Top 10 clientes con mayor monto total de compras</strong></p>
+    </div>
+
+    <table>
+        <caption>Ranking de Clientes por Monto Total Gastado</caption>
+        <tr>
+            <th>Posición</th>
+            <th>ID Cliente</th>
+            <th>Nombre del Cliente</th>
+            <th>Total Gastado</th>
+        </tr>
+        {% for cliente in clientes_top %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ cliente.id_cliente }}</td>
+            <td>{{ cliente.nombre }}</td>
+            <td>${{ "%.2f"|format(cliente.total_gastado) }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    {% if not clientes_top %}
+    <div style="text-align: center; margin: 20px;">
+        No hay datos de compras para generar el reporte.
+    </div>
+    {% endif %}
+
+    <div style="text-align: center; margin: 20px;">
+        <p><strong>Total de clientes en el ranking: {{ clientes_top|length }}</strong></p>
+    </div>
+{% endblock %}
